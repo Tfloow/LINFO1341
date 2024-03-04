@@ -36,7 +36,7 @@ sleep 10
 
 
 # Create the SSLKEYLOGFILE
-SSLKEYLOGFILE=trace/${date}_sslkeylog.log
+SSLKEYLOGFILE=${date}_sslkeylog.log
 export SSLKEYLOGFILE=${SSLKEYLOGFILE}
 firefox https://uclouvain-my.sharepoint.com/ &
 firefox_pid=$!
@@ -49,10 +49,11 @@ echo -e "${GREEN}Capture Firefox started${NC}"
 wait $firefox_pid
 echo -e "${GREEN}Firefox stopped${NC}"
 
-sleep 2 
-sudo kill $tcpdump_firefox_pid
+kill $tcpdump_firefox_pid
+kill $tcpdump_pid
 
-sleep 2
-sudo kill $tcpdump_pid
+echo -e "${GREEN}Used Bazooka to kill all process${NC}"
+sudo pkill tcpdump
+
 echo -e "${GREEN}Capture Noise stopped${NC}"
 echo -e "${WHITE}"
