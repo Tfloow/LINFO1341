@@ -27,7 +27,7 @@ date=$(date +"%m-%d_%H-%M-%S")
 
 # Start the capture of the packets
 echo "------ Starting the capture of the packets ------"
-sudo tcpdump -U -i any -w trace/${date}_noise_capture.pcap &
+sudo tcpdump -Z $USER -U -i any -w trace/${date}_noise_capture.pcap &
 tcpdump_pid=$!
 
 echo -e "${GREEN}Capture Noise started${NC}"
@@ -36,13 +36,13 @@ sleep 10
 
 
 # Create the SSLKEYLOGFILE
-SSLKEYLOGFILE=${date}_sslkeylog.log
+SSLKEYLOGFILE=trace/${date}_sslkeylog.log
 export SSLKEYLOGFILE=${SSLKEYLOGFILE}
 firefox https://uclouvain-my.sharepoint.com/ &
 firefox_pid=$!
 echo -e "${GREEN}Firefox started${NC}"
 
-sudo tcpdump -U -i any -w trace/${date}_ssl_capture.pcap &
+sudo tcpdump -Z $USER -U -i any -w trace/${date}_ssl_capture.pcap &
 tcpdump_firefox_pid=$!
 echo -e "${GREEN}Capture Firefox started${NC}"
 
