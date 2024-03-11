@@ -18,9 +18,9 @@ else
   exit
 fi
 
-# Kill all running firefox instances
-echo "------ Killing all running firefox instances ------"
-sudo pkill -f firefox
+# Kill all running chrome instances
+echo "------ Killing all running chrome instances ------"
+sudo pkill -f google-chrome
 
 # Get the current date
 date=$(date +"%m-%d_%H-%M-%S")
@@ -41,19 +41,19 @@ SSLKEYLOGFILE=${date}_sslkeylog.log
 export SSLKEYLOGFILE=${SSLKEYLOGFILE}
 
 sudo tcpdump -Z $USER -U -i any -w trace/${date}/ssl_capture.pcap > /dev/null 2>&1 &
-tcpdump_firefox_pid=$!
+tcpdump_chrome_pid=$!
 
-echo -e "${GREEN}Capture Firefox started${NC}"
+echo -e "${GREEN}Capture chrome started${NC}"
 sleep 5
 
-firefox "https://uclouvain-my.sharepoint.com/personal/thomas_debelle_student_uclouvain_be/_layouts/15/onedrive.aspx?e=5%3Aa467040015a74b5e8c12974e599f66db&at=9&CT=1710147896600&OR=OWA%2DNT%2DMail&CID=07254add%2Da8bd%2D72f8%2D30a4%2Dc4fcf52eccc0&FolderCTID=0x01200073E791050F17434C8FA5E0C5036796B5&sw=auth&id=%2Fpersonal%2Fthomas%5Fdebelle%5Fstudent%5Fuclouvain%5Fbe%2FDocuments%2FQ6%2FLINFO1341%2FP1&view=0" > /dev/null 2>&1 &
-firefox_pid=$!
-echo -e "${GREEN}Firefox started${NC}"
+google-chrome "https://uclouvain-my.sharepoint.com/personal/thomas_debelle_student_uclouvain_be/_layouts/15/onedrive.aspx?e=5%3Aa467040015a74b5e8c12974e599f66db&at=9&CT=1710147896600&OR=OWA%2DNT%2DMail&CID=07254add%2Da8bd%2D72f8%2D30a4%2Dc4fcf52eccc0&FolderCTID=0x01200073E791050F17434C8FA5E0C5036796B5&sw=auth&id=%2Fpersonal%2Fthomas%5Fdebelle%5Fstudent%5Fuclouvain%5Fbe%2FDocuments%2FQ6%2FLINFO1341%2FP1&view=0" > /dev/null 2>&1 &
+chrome_pid=$!
+echo -e "${GREEN}chrome started${NC}"
 
-wait $firefox_pid
-echo -e "${GREEN}Firefox stopped${NC}"
+wait $chrome_pid
+echo -e "${GREEN}chrome stopped${NC}"
 
-sudo kill $tcpdump_firefox_pid
+sudo kill $tcpdump_chrome_pid
 sudo kill $tcpdump_pid
 
 echo -e "${GREEN}Used Bazooka to kill all process${NC}"
