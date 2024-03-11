@@ -46,7 +46,7 @@ tcpdump_firefox_pid=$!
 echo -e "${GREEN}Capture Firefox started${NC}"
 sleep 5
 
-firefox https://uclouvain-my.sharepoint.com/ > /dev/null 2>&1 &
+firefox "https://uclouvain-my.sharepoint.com/personal/thomas_debelle_student_uclouvain_be/_layouts/15/onedrive.aspx?e=5%3Aa467040015a74b5e8c12974e599f66db&at=9&CT=1710147896600&OR=OWA%2DNT%2DMail&CID=07254add%2Da8bd%2D72f8%2D30a4%2Dc4fcf52eccc0&FolderCTID=0x01200073E791050F17434C8FA5E0C5036796B5&sw=auth&id=%2Fpersonal%2Fthomas%5Fdebelle%5Fstudent%5Fuclouvain%5Fbe%2FDocuments%2FQ6%2FLINFO1341%2FP1&view=0" > /dev/null 2>&1 &
 firefox_pid=$!
 echo -e "${GREEN}Firefox started${NC}"
 
