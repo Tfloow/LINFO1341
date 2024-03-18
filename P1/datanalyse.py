@@ -27,4 +27,9 @@ def process_with_scapy(fileName):
     for protocol in protocol_count:
         print(f'{protocol_count[protocol]} packets have layer "{protocol}"')
 
-process_with_scapy("trace/Chrome_Eduroam_downloading_txtfile_from_Onedrive/ssl_capture.pcap")
+
+
+
+p = rdpcap("trace/Chrome_Eduroam_downloading_txtfile_from_Onedrive/ssl_capture.pcap")
+
+print(p[0].name)
