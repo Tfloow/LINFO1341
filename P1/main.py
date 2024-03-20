@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import pyshark as ps
 import argparse
 import os
+import scapy.all as scapy
 
 # this code helps us to sort only the most important packet that are related to microsoft Onedrive
 
@@ -10,8 +10,7 @@ import os
 URLOneDrive=["sharepoint.com","akadns.net","spo-msedge.net", "azure.com", "office.net","office.com", "edgekey.net", "akamaiedge.net", "akadns.net", "aureedge.net", "omegacdn.net", "microsoftonline.com", "msidentity.com", "trafficmanager.net", "akamai.com", "microsoft.com", "azure-dns.com", "svc.ms", "dns-tm.com", "skype.com", "s-msedge.net", "msftauth.net"]
 
 def is_dns_response(packet):
-    response_tag=0x8180
-    if 'DNS' in packet and int(packet.dns.Flags, 16) == 0x8180:
+    if packet.haslayer(scapy.DNSRR) and packet.getlayer(scapy.DNS).qr == 1:  # Check if it's a DNS answer
         return True
     return False
     
@@ -26,18 +25,19 @@ def cleaningCapture(foldername, save=False, URLOneDrive=[], LOG=False):
         IPdict[url] = {"A": [], "AAAA":[]}
     
     # Load the pcap
-    capture = ps.FileCapture(f"trace/{foldername}/ssl_capture.pcap")
+    capture = scapy.rdpcap(f"trace/{foldername}/ssl_capture.pcap")
     
     # Filter the packets using the DNS resolving the URL
     for i in range(10):
+        print(capture[i])
         if is_dns_response(capture[i]):
             # Adding the IP inside the dic
-            print(capture[i].dns.qry_name)
+            print(capture[i])
             
             # Type of DNS record
-            print(dir(capture[i].dns))
+            print(dir(capture[i]))
             
-            if capture[i].dns.qry_name in URLOneDrive:
+            if capture[i] in URLOneDrive:
                 print("let's go")
         print("_________________")
     
